@@ -19,7 +19,7 @@ class QuestionGateway
     // Question
     function getQuestion(int $questionNum)
     {
-        $question = $this->db->table('questions')
+        $question = $this->db->table('questions2')
             ->where('number', $questionNum)
             ->first();
  
