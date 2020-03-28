@@ -196,7 +196,7 @@ class Webhook extends Controller
                 // send question no.1
                 $this->sendQuestion($event['replyToken'], 1);
             }
-            else if('https://corona.lmao.ninja/countries/'.strtolower($userMessage) != null){
+            else if('https://corona.lmao.ninja/countries/'.strtolower($userMessage)){
                 $url = "https://corona.lmao.ninja/countries/".strtolower($userMessage);
                 $json = file_get_contents($url);
                 $json = json_decode($json);
@@ -209,7 +209,7 @@ class Webhook extends Controller
                 $message  = "Total Kasus : ". $result1 . "\n";
                 $message .= "Kasus Hari Ini : ". $result2 . "\n";
                 $message .= "Meninggal : ". $result3 . "\n";
-                $message .= "Sembuh : ". $result4 . "\n";
+                $message .= "Sembuh : ". $result4;
                 $textMessageBuilder = new TextMessageBuilder($message);
 
                 $textMessageBuilder = new TextMessageBuilder($message);
