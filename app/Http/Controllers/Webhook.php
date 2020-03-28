@@ -88,4 +88,84 @@ class Webhook extends Controller
         return $this->handleEvents();
     }
 
+    private function handleEvents()
+    {
+        $data = $this->request->all();
+    
+        if(is_array($data['events'])){
+            foreach ($data['events'] as $event)
+            {
+                // skip group and room event
+                if(! isset($event['source']['userId'])){
+                    // get user data from database
+                    $this->user = $this->userGateway->getUser($event['source']['userId']);
+                    
+                    // if user not registered
+                            if(!$this->user) $this->followCallback($event);
+                            else {
+                                // respond event
+                                if($event['type'] == 'message'){
+                                    if(method_exists($this, $event['message']['type'].'Message')){
+                                        $this->{$event['message']['type'].'Message'}($event);
+                                    }
+                                } else {
+                                    if(method_exists($this, $event['type'].'Callback')){
+                                        $this->{$event['type'].'Callback'}($event);
+                                    }
+                                }
+                            }
+                }
+                else if ($event['source']['type'] == 'group' or
+                $event['source']['type'] == 'room'){
+                    
+                }
+            }
+        }
+    
+    
+        $this->response->setContent("No events found!");
+        $this->response->setStatusCode(200);
+        return $this->response;
+    }
+
+    private function followCallback($event)
+    {
+        $res = $this->bot->getProfile($event['source']['userId']);
+        if ($res->isSucceeded())
+        {
+            $profile = $res->getJSONDecodedBody();
+    
+            // create welcome message
+            $message  = "Salam kenal, " . $profile['displayName'] . "!\n";
+            $message .= "Aku akan membantu kamu memberikan informasi tentang COVID-19 terkini";
+            $textMessageBuilder = new TextMessageBuilder($message);
+
+            $message2 = "Untuk melihat angka penyebaran COVID-19 pada berbagai negara silahkan ketikkan nama negara. Contoh : USA";
+            $textMessageBuilder2 = new TextMessageBuilder($message2);
+
+            $message3 = "Atau kamu dapat mengikuti kuis seputar fakta COVID-19 dengan mengirim pesan \"MULAI\"";
+            $textMessageBuilder3 = new TextMessageBuilder($message3);
+    
+            // create sticker message
+            $stickerMessageBuilder = new StickerMessageBuilder(1, 407);
+    
+            // merge all message
+            $multiMessageBuilder = new MultiMessageBuilder();
+            $multiMessageBuilder->add($textMessageBuilder);
+            $multiMessageBuilder->add($textMessageBuilder2);
+            $multiMessageBuilder->add($textMessageBuilder3);
+            $multiMessageBuilder->add($stickerMessageBuilder);
+    
+            // send reply message
+            $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
+    
+            // save user data
+            $this->userGateway->saveUser(
+                $profile['userId'],
+                $profile['displayName']
+            );
+    
+        }
+    }
+
 }
