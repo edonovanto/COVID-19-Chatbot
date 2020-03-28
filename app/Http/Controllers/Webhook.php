@@ -204,18 +204,25 @@ class Webhook extends Controller
                 $result2 = $json->todayCases;
                 $result3 = $json->deaths;
                 $result4 = $json->recovered;
+                $result5 = $json->casesPerOneMillion;
 
                 // create welcome message
                 $message  = "Total Kasus : ". $result1 . "\n";
                 $message .= "Kasus Hari Ini : ". $result2 . "\n";
                 $message .= "Meninggal : ". $result3 . "\n";
-                $message .= "Sembuh : ". $result4;
+                $message .= "Sembuh : ". $result4 . "\n";
+                $message .= "Kasus per 1 Juta Orang : ". $result5;
                 $textMessageBuilder = new TextMessageBuilder($message);
 
                 $textMessageBuilder = new TextMessageBuilder($message);
                 $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
             }
-             else {
+             else if ('https://corona.lmao.ninja/countries/'.strtolower($userMessage) == null || strtolower($userMessage) != 'mulai') {
+                $message = 'Mohon maaf kami tidak mengerti pesan anda. Silakan kirim pesan "MULAI" untuk memulai kuis atau masukkan nama negara yang sesuai.';
+                $textMessageBuilder = new TextMessageBuilder($message);
+                $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
+            }
+            else {
                 $message = 'Mohon maaf kami tidak mengerti pesan anda. Silakan kirim pesan "MULAI" untuk memulai kuis atau masukkan nama negara yang sesuai.';
                 $textMessageBuilder = new TextMessageBuilder($message);
                 $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
