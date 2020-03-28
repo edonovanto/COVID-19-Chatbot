@@ -96,24 +96,42 @@ class Webhook extends Controller
             foreach ($data['events'] as $event)
             {
                 // skip group and room event
-                if(! isset($event['source']['userId'])) continue;
-     
-                // get user data from database
-                $this->user = $this->userGateway->getUser($event['source']['userId']);
-     
-                // if user not registered
-                if(!$this->user) $this->followCallback($event);
-                else {
-                    // respond event
-                    if($event['type'] == 'message'){
-                        if(method_exists($this, $event['message']['type'].'Message')){
-                            $this->{$event['message']['type'].'Message'}($event);
-                        }
-                    } else {
-                        if(method_exists($this, $event['type'].'Callback')){
-                            $this->{$event['type'].'Callback'}($event);
+                if(! isset($event['source']['userId'])){
+                    // get user data from database
+                    $this->user = $this->userGateway->getUser($event['source']['userId']);
+         
+                    // if user not registered
+                    if(!$this->user) $this->followCallback($event);
+                    else {
+                        // respond event
+                        if($event['type'] == 'message'){
+                            if(method_exists($this, $event['message']['type'].'Message')){
+                                $this->{$event['message']['type'].'Message'}($event);
+                            }
+                        } else {
+                            if(method_exists($this, $event['type'].'Callback')){
+                                $this->{$event['type'].'Callback'}($event);
+                            }
                         }
                     }
+                }
+                else if($event['source']['type'] == 'group' or
+                $event['source']['type'] == 'room'){
+                     // create welcome message
+                    $message  = "Salam kenal, semua!\n";
+                    $message .= "Aku akan membantu kamu memberikan informasi tentang COVID-19 terkini";
+                    $textMessageBuilder = new TextMessageBuilder($message);
+
+                    // create sticker message
+                    $stickerMessageBuilder = new StickerMessageBuilder(1, 407);
+
+                    // merge all message
+                    $multiMessageBuilder = new MultiMessageBuilder();
+                    $multiMessageBuilder->add($textMessageBuilder);
+                    $multiMessageBuilder->add($stickerMessageBuilder);
+
+                    // send reply message
+                    $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
                 }
             }
         }
@@ -177,8 +195,28 @@ class Webhook extends Controller
                 $this->userGateway->setUserProgress($this->user['user_id'], 1);
                 // send question no.1
                 $this->sendQuestion($event['replyToken'], 1);
-            } else {
-                $message = 'Silakan kirim pesan "MULAI" untuk memulai kuis.';
+            }
+            else if('https://corona.lmao.ninja/countries/'.strtolower($userMessage) != null){
+                $url = "https://corona.lmao.ninja/countries/".strtolower($userMessage);
+                $json = file_get_contents($url);
+                $json = json_decode($json);
+                $result1 = $json->cases;
+                $result2 = $json->todayCases;
+                $result3 = $json->deaths;
+                $result4 = $json->recovered;
+
+                // create welcome message
+                $message  = "Total Kasus : ". $result1 . "\n";
+                $message .= "Kasus Hari Ini : ". $result2 . "\n";
+                $message .= "Meninggal : ". $result3 . "\n";
+                $message .= "Sembuh : ". $result4 . "\n";
+                $textMessageBuilder = new TextMessageBuilder($message);
+
+                $textMessageBuilder = new TextMessageBuilder($message);
+                $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
+            }
+             else {
+                $message = 'Mohon maaf kami tidak mengerti pesan anda. Silakan kirim pesan "MULAI" untuk memulai kuis atau masukkan nama negara yang sesuai.';
                 $textMessageBuilder = new TextMessageBuilder($message);
                 $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
             }

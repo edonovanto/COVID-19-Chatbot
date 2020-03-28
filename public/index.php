@@ -25,4 +25,12 @@ $app = require __DIR__.'/../bootstrap/app.php';
 |
 */
 
+$url = "https://corona.lmao.ninja/countries/indonesia";
+$json = file_get_contents($url);
+$json = json_decode($json);
+$result = $json->cases;
+$result2 = $json->todayCases;
+echo "Total Kasus: \n" . $result ;
+echo "Kasus hari ini: \n" . $result2;
+
 $app->run();
