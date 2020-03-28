@@ -236,7 +236,7 @@ class Webhook extends Controller
             $this->userGateway->setScore($this->user['user_id'], $this->user['score']);
         }
     
-        if($this->user['number'] < 10)
+        if($this->user['number'] < 5)
         {
             // update number progress
             $this->userGateway->setUserProgress($this->user['user_id'], $this->user['number']+1);
