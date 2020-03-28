@@ -239,10 +239,10 @@ class Webhook extends Controller
         if($this->user['number'] < 10)
         {
             // update number progress
-            $this->userGateway->setUserProgress($this->user['user_id'], $this->user['number']++);
+            $this->userGateway->setUserProgress($this->user['user_id'], $this->user['number']+1);
     
             // send next question
-            $this->sendQuestion($replyToken, $this->user['number']++);
+            $this->sendQuestion($replyToken, $this->user['number']+1);
         }
         else {
             // create user score message
