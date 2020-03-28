@@ -196,7 +196,7 @@ class Webhook extends Controller
                 // send question no.1
                 $this->sendQuestion($event['replyToken'], 1);
             }
-            else if('https://corona.lmao.ninja/countries/'.strtolower($userMessage)){
+            if('https://corona.lmao.ninja/countries/'.strtolower($userMessage) != null){
                 $url = "https://corona.lmao.ninja/countries/".strtolower($userMessage);
                 $json = file_get_contents($url);
                 $json = json_decode($json);
