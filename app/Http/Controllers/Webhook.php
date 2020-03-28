@@ -168,4 +168,111 @@ class Webhook extends Controller
         }
     }
 
+    private function textMessage($event)
+    {
+        $userMessage = $event['message']['text'];
+        if($this->user['number'] == 0)
+        {
+            if(strtolower($userMessage) == 'mulai')
+            {
+                // reset score
+                $this->userGateway->setScore($this->user['user_id'], 0);
+                // update number progress
+                $this->userGateway->setUserProgress($this->user['user_id'], 1);
+                // send question no.1
+                $this->sendQuestion($event['replyToken'], 1);
+            } else {
+                $message = 'Silakan kirim pesan "MULAI" untuk memulai kuis.';
+                $textMessageBuilder = new TextMessageBuilder($message);
+                $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
+            }
+    
+            // if user already begin test
+        } else {
+            $this->checkAnswer($userMessage, $event['replyToken']);
+        }
+    }
+
+    private function stickerMessage($event)
+    {
+        // create sticker message
+        $stickerMessageBuilder = new StickerMessageBuilder(1, 106);
+    
+        // create text message
+        $message = 'Silakan kirim pesan "MULAI" untuk memulai kuis.';
+        $textMessageBuilder = new TextMessageBuilder($message);
+    
+        // merge all message
+        $multiMessageBuilder = new MultiMessageBuilder();
+        $multiMessageBuilder->add($stickerMessageBuilder);
+        $multiMessageBuilder->add($textMessageBuilder);
+    
+        // send message
+        $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
+    }
+
+    private function sendQuestion($replyToken, $questionNum=1)
+    {
+        // get question from database
+        $question = $this->questionGateway->getQuestion($questionNum);
+    
+        // prepare answer options
+        for($opsi = "a"; $opsi <= "d"; $opsi++) {
+            if(!empty($question['option_'.$opsi]))
+                $options[] = new MessageTemplateActionBuilder($question['option_'.$opsi], $question['option_'.$opsi]);
+        }
+    
+        // prepare button template
+        $buttonTemplate = new ButtonTemplateBuilder($question['number']."/10", $question['text'], $question['image'], $options);
+    
+        // build message
+        $messageBuilder = new TemplateMessageBuilder("Gunakan mobile app untuk melihat soal", $buttonTemplate);
+    
+        // send message
+        $response = $this->bot->replyMessage($replyToken, $messageBuilder);
+    }
+
+    private function checkAnswer($message, $replyToken)
+    {
+        // if answer is true, increment score
+        if($this->questionGateway->isAnswerEqual($this->user['number'], $message)){
+            $this->user['score']++;
+            $this->userGateway->setScore($this->user['user_id'], $this->user['score']);
+        }
+    
+        if($this->user['number'] < 10)
+        {
+            // update number progress
+            $this->userGateway->setUserProgress($this->user['user_id'], $this->user['number'] + 1);
+    
+            // send next question
+            $this->sendQuestion($replyToken, $this->user['number'] + 1);
+        }
+        else {
+            // create user score message
+            $message = 'Skormu '. $this->user['score'];
+            $textMessageBuilder1 = new TextMessageBuilder($message);
+    
+            // create sticker message
+            $stickerId = ($this->user['score'] < 8) ? 100 : 114;
+            $stickerMessageBuilder = new StickerMessageBuilder(1, $stickerId);
+    
+            // create play again message
+            $message = ($this->user['score'] < 8) ?
+                'Wkwkwk! Nyerah? Ketik "MULAI" untuk bermain lagi!':
+                'Great! Mantap bro! Ketik "MULAI" untuk bermain lagi!';
+            $textMessageBuilder2 = new TextMessageBuilder($message);
+    
+            // merge all message
+            $multiMessageBuilder = new MultiMessageBuilder();
+            $multiMessageBuilder->add($textMessageBuilder1);
+            $multiMessageBuilder->add($stickerMessageBuilder);
+            $multiMessageBuilder->add($textMessageBuilder2);
+    
+            // send reply message
+            $this->bot->replyMessage($replyToken, $multiMessageBuilder);
+            $this->userGateway->setUserProgress($this->user['user_id'], 0);
+        }
+    }
+
 }
