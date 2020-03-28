@@ -185,13 +185,31 @@ class Webhook extends Controller
     private function textMessage($event)
     {
         $userMessage = $event['message']['text'];
-        if($this->user['number'] == 0)
-        {
-            $urlCovid = 'https://corona.lmao.ninja/countries/'.strtolower($userMessage);
-            $url = "https://corona.lmao.ninja/countries/".strtolower($userMessage);
+        if(strtolower($userMessage) == 'cari info'){
+            $userMessage2 = $event['message']['text'];
+            $url = "https://corona.lmao.ninja/countries/".strtolower($userMessage2);
             $json = file_get_contents($url);
             $json = json_decode($json);
             $result1 = $json->cases;
+            $result2 = $json->todayCases;
+            $result3 = $json->deaths;
+            $result4 = $json->recovered;
+            $result5 = $json->casesPerOneMillion;
+
+            // create welcome message
+            $message  = "Total Kasus : ". $result1 . "\n";
+            $message .= "Kasus Hari Ini : ". $result2 . "\n";
+            $message .= "Meninggal : ". $result3 . "\n";
+            $message .= "Sembuh : ". $result4 . "\n";
+            $message .= "Kasus per 1 Juta Orang : ". $result5;
+            $textMessageBuilder = new TextMessageBuilder($message);
+
+            $textMessageBuilder = new TextMessageBuilder($message);
+            $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
+        }
+        if($this->user['number'] == 0)
+        {
+            $urlCovid = 'https://corona.lmao.ninja/countries/'.strtolower($userMessage);
             if(strtolower($userMessage) == 'mulai')
             {
                 // reset score
@@ -201,24 +219,7 @@ class Webhook extends Controller
                 // send question no.1
                 $this->sendQuestion($event['replyToken'], 1);
             }
-            else if($result1 >=0){
-                $result2 = $json->todayCases;
-                $result3 = $json->deaths;
-                $result4 = $json->recovered;
-                $result5 = $json->casesPerOneMillion;
-
-                // create welcome message
-                $message  = "Total Kasus : ". $result1 . "\n";
-                $message .= "Kasus Hari Ini : ". $result2 . "\n";
-                $message .= "Meninggal : ". $result3 . "\n";
-                $message .= "Sembuh : ". $result4 . "\n";
-                $message .= "Kasus per 1 Juta Orang : ". $result5;
-                $textMessageBuilder = new TextMessageBuilder($message);
-
-                $textMessageBuilder = new TextMessageBuilder($message);
-                $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
-            }
-            else if (!$result1) {
+            else{
                 $message = 'Mohon maaf kami tidak mengerti pesan anda. Silakan kirim pesan "MULAI" untuk memulai kuis atau masukkan nama negara yang sesuai.';
                 $textMessageBuilder = new TextMessageBuilder($message);
                 $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
