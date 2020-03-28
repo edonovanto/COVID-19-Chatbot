@@ -185,9 +185,8 @@ class Webhook extends Controller
     private function textMessage($event)
     {
         $userMessage = $event['message']['text'];
-        if(strtolower($userMessage) == 'cari info'){
-            $userMessage2 = $event['message']['text'];
-            $url = "https://corona.lmao.ninja/countries/".strtolower($userMessage2);
+        if('https://corona.lmao.ninja/countries/'.strtolower($userMessage)){
+            $url = "https://corona.lmao.ninja/countries/".strtolower($userMessage);
             $json = file_get_contents($url);
             $json = json_decode($json);
             $result1 = $json->cases;
