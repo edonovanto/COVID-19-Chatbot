@@ -18,4 +18,6 @@ $router->get('/', function () use ($router) {
 $router->get('/key', function() { 
     return \Illuminate\Support\Str::random(32); 
     });
+
+$router->post('/webhook', 'Webhook');
     
