@@ -96,7 +96,7 @@ class Webhook extends Controller
             foreach ($data['events'] as $event)
             {
                 // skip group and room event
-                if(! isset($event['source']['userId'])){
+                if(isset($event['source']['userId'])){
                     // get user data from database
                     $this->user = $this->userGateway->getUser($event['source']['userId']);
          
