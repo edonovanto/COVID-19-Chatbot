@@ -242,7 +242,7 @@ class Webhook extends Controller
             $this->userGateway->setUserProgress($this->user['user_id'], $this->user['number'] + 1);
     
             // send next question
-            $this->sendQuestion($replyToken, $this->user['number'] + 2);
+            $this->sendQuestion($replyToken, $this->user['number'] + 1);
         }
         else {
             // create user score message
