@@ -201,7 +201,7 @@ class Webhook extends Controller
                 // send question no.1
                 $this->sendQuestion($event['replyToken'], 1);
             }
-            if($result1 >=0){
+            else if($result1 >=0){
                 $result2 = $json->todayCases;
                 $result3 = $json->deaths;
                 $result4 = $json->recovered;
@@ -218,7 +218,7 @@ class Webhook extends Controller
                 $textMessageBuilder = new TextMessageBuilder($message);
                 $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
             }
-            else if ($result1 == null) {
+            else if (!$result1) {
                 $message = 'Mohon maaf kami tidak mengerti pesan anda. Silakan kirim pesan "MULAI" untuk memulai kuis atau masukkan nama negara yang sesuai.';
                 $textMessageBuilder = new TextMessageBuilder($message);
                 $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
