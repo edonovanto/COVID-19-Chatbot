@@ -219,7 +219,7 @@ class Webhook extends Controller
         }
     
         // prepare button template
-        $buttonTemplate = new ButtonTemplateBuilder($question['number']."/10", $question['text'], $question['image'], $options);
+        $buttonTemplate = new ButtonTemplateBuilder($question['number']."/4", $question['text'], $question['image'], $options);
     
         // build message
         $messageBuilder = new TemplateMessageBuilder("Gunakan mobile app untuk melihat soal", $buttonTemplate);
@@ -236,7 +236,7 @@ class Webhook extends Controller
             $this->userGateway->setScore($this->user['user_id'], $this->user['score']);
         }
     
-        if($this->user['number'] < 5)
+        if($this->user['number'] < 4)
         {
             // update number progress
             $this->userGateway->setUserProgress($this->user['user_id'], $this->user['number']+1);
