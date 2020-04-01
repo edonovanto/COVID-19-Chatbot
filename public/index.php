@@ -25,31 +25,31 @@ $app = require __DIR__.'/../bootstrap/app.php';
 |
 */
 
-$country = "indonsia";
-$flop = "aslkaskdoks";
+// $country = "indonsia";
+// $flop = "aslkaskdoks";
 
-    $url = 'https://corona.lmao.ninja/countries/'. $country;
+//     $url = 'https://corona.lmao.ninja/countries/'. $country;
 
-    $result = "";
+//     $result = "";
 
     
-    if ($url){
-        $json = file_get_contents($url);
+//     if ($url){
+//         $json = file_get_contents($url);
 
-        $json = json_decode($json);
+//         $json = json_decode($json);
 
-        $result1 = $json->cases;
-            $result2 = $json->todayCases;
-            $result3 = $json->deaths;
-            $result4 = $json->recovered;
-            $result5 = $json->casesPerOneMillion;
+//         $result1 = $json->cases;
+//             $result2 = $json->todayCases;
+//             $result3 = $json->deaths;
+//             $result4 = $json->recovered;
+//             $result5 = $json->casesPerOneMillion;
         
-            $result .= $result1 ."\n". $result2 . "\n" . $result3 . "\n" . $result4 . "\n" . $result5;
-    }else {
-        echo "tidak oke";
-    }
+//             $result .= $result1 ."\n". $result2 . "\n" . $result3 . "\n" . $result4 . "\n" . $result5;
+//     }else {
+//         echo "tidak oke";
+//     }
 
 
-            echo $result;
+//             echo $result;
 
-// $app->run();
+$app->run();
