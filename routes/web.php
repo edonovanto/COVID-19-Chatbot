@@ -15,9 +15,16 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+//LINE
+
 $router->get('/key', function() { 
     return \Illuminate\Support\Str::random(32); 
     });
 
 $router->post('/webhook', 'Webhook');
+
+//Infermedica
+
+
+
     
