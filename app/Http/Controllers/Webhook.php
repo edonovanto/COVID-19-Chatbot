@@ -210,16 +210,17 @@ class Webhook extends Controller
                 $pic = $json->countryInfo['flag'];
     
                 // create welcome message
-                $imageMessageBuilder = new ImageMessageBuilder($pic, 'url gambar preview');
+                $imageMessageBuilder = new ImageMessageBuilder($pic, $pic);
                 $message  = "Total Kasus : ". $result1 . "\n";
                 $message .= "Kasus Hari Ini : ". $result2 . "\n";
                 $message .= "Meninggal : ". $result3 . "\n";
                 $message .= "Sembuh : ". $result4 . "\n";
                 $message .= "Kasus per 1 Juta Orang : ". $result5;
     
+                $this->bot->replyMessage($event['replyToken'], $imageMessageBuilder);
+
                 $textMessageBuilder = new TextMessageBuilder($message);
                 $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
-                $this->bot->replyMessage($event['replyToken'], $imageMessageBuilder);
             }
             else{
                 $message = 'Mohon maaf kami tidak mengerti pesan anda. Silakan kirim pesan "MULAI" untuk memulai kuis atau masukkan nama negara yang sesuai.';
