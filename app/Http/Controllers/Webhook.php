@@ -16,6 +16,7 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateMessageBuilder;
 use LINE\LINEBot\MessageBuilder\TextMessageBuilder;
 use LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder;
+use \LINE\LINEBot\MessageBuilder\ImageMessageBuilder;
  
 class Webhook extends Controller
 {
@@ -187,7 +188,6 @@ class Webhook extends Controller
         $userMessage = $event['message']['text'];
         if($this->user['number'] == 0)
         {
-            $urlCovid = 'https://corona.lmao.ninja/countries/'.strtolower($userMessage);
             if(strtolower($userMessage) == 'mulai')
             {
                 // reset score
@@ -198,6 +198,7 @@ class Webhook extends Controller
                 $this->sendQuestion($event['replyToken'], 1);
             }
             if('https://corona.lmao.ninja/countries/'.strtolower($userMessage)){
+
                 $url = "https://corona.lmao.ninja/countries/".strtolower($userMessage);
                 $json = file_get_contents($url);
                 $json = json_decode($json);
@@ -206,6 +207,7 @@ class Webhook extends Controller
                 $result3 = $json->deaths;
                 $result4 = $json->recovered;
                 $result5 = $json->casesPerOneMillion;
+                $pic = $json->countryInfo->flag;
     
                 // create welcome message
                 $message  = "Total Kasus : ". $result1 . "\n";
@@ -214,7 +216,10 @@ class Webhook extends Controller
                 $message .= "Sembuh : ". $result4 . "\n";
                 $message .= "Kasus per 1 Juta Orang : ". $result5;
                 $textMessageBuilder = new TextMessageBuilder($message);
+                $imageMessageBuilder = new ImageMessageBuilder($pic, $pic);
     
+                $this->bot->replyMessage($event['replyToken'], $imageMessageBuilder);
+
                 $textMessageBuilder = new TextMessageBuilder($message);
                 $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
             }
