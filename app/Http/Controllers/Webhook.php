@@ -187,6 +187,7 @@ class Webhook extends Controller
         $userMessage = $event['message']['text'];
         if($this->user['number'] == 0)
         {
+            $urlCovid = 'https://corona.lmao.ninja/countries/'.strtolower($userMessage);
             if(strtolower($userMessage) == 'mulai')
             {
                 // reset score
