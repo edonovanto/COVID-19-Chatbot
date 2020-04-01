@@ -205,6 +205,7 @@ class Webhook extends Controller
                 $result1 = $json->cases;
                 $result2 = $json->todayCases;
                 $result3 = $json->deaths;
+                $result34 = $json->todayDeath;
                 $result4 = $json->recovered;
                 $result5 = $json->casesPerOneMillion;
                 $pic = $json->countryInfo->flag;
@@ -213,23 +214,24 @@ class Webhook extends Controller
                 $message  = "Total Kasus : ". $result1 . "\n";
                 $message .= "Kasus Hari Ini : ". $result2 . "\n";
                 $message .= "Meninggal : ". $result3 . "\n";
+                $message .= "Meninggal Hari Ini: ". $result34 . "\n";
                 $message .= "Sembuh : ". $result4 . "\n";
                 $message .= "Kasus per 1 Juta Orang : ". $result5;
                 $textMessageBuilder = new TextMessageBuilder($message);
-                $imageMessageBuilder = new ImageMessageBuilder($pic, $pic);
+                // $imageMessageBuilder = new ImageMessageBuilder($pic, $pic);
 
                 //merge response
-                $multiMessageBuilder = new MultiMessageBuilder();
-                $multiMessageBuilder->add($imageMessageBuilder);
-                $multiMessageBuilder->add($textMessageBuilder);
+                // $multiMessageBuilder = new MultiMessageBuilder();
+                // $multiMessageBuilder->add($imageMessageBuilder);
+                // $multiMessageBuilder->add($textMessageBuilder);
 
                 // send reply message
-                $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
+                // $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
     
                 // $this->bot->replyMessage($event['replyToken'], $imageMessageBuilder);
 
-                // $textMessageBuilder = new TextMessageBuilder($message);
-                // $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
+                $textMessageBuilder = new TextMessageBuilder($message);
+                $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
             }
             else{
                 $message = 'Mohon maaf kami tidak mengerti pesan anda. Silakan kirim pesan "MULAI" untuk memulai kuis atau masukkan nama negara yang sesuai.';
