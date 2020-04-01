@@ -231,7 +231,6 @@ class Webhook extends Controller
     
                 // $this->bot->replyMessage($event['replyToken'], $imageMessageBuilder);
 
-                $textMessageBuilder = new TextMessageBuilder($message);
                 $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
             }
             else{
