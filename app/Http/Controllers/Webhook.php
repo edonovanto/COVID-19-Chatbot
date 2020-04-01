@@ -220,8 +220,8 @@ class Webhook extends Controller
 
                 //merge response
                 $multiMessageBuilder = new MultiMessageBuilder();
-                $multiMessageBuilder->add($textMessageBuilder);
                 $multiMessageBuilder->add($imageMessageBuilder);
+                $multiMessageBuilder->add($textMessageBuilder);
 
                 // send reply message
                 $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
