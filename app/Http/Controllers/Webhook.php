@@ -217,11 +217,19 @@ class Webhook extends Controller
                 $message .= "Kasus per 1 Juta Orang : ". $result5;
                 $textMessageBuilder = new TextMessageBuilder($message);
                 $imageMessageBuilder = new ImageMessageBuilder($pic, $pic);
-    
-                $this->bot->replyMessage($event['replyToken'], $imageMessageBuilder);
 
-                $textMessageBuilder = new TextMessageBuilder($message);
-                $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
+                //merge response
+                $multiMessageBuilder = new MultiMessageBuilder();
+                $multiMessageBuilder->add($textMessageBuilder);
+                $multiMessageBuilder->add($imageMessageBuilder);
+
+                // send reply message
+                $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
+    
+                // $this->bot->replyMessage($event['replyToken'], $imageMessageBuilder);
+
+                // $textMessageBuilder = new TextMessageBuilder($message);
+                // $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
             }
             else{
                 $message = 'Mohon maaf kami tidak mengerti pesan anda. Silakan kirim pesan "MULAI" untuk memulai kuis atau masukkan nama negara yang sesuai.';
