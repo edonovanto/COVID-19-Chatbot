@@ -158,8 +158,11 @@ class Webhook extends Controller
             $message2 = "Untuk melihat angka penyebaran COVID-19 pada berbagai negara silahkan ketikkan nama negara. Contoh : USA";
             $textMessageBuilder2 = new TextMessageBuilder($message2);
 
-            $message3 = "Atau kamu dapat mengikuti kuis seputar fakta COVID-19 dengan mengirim pesan \"MULAI\"";
+            $message3 = "untuk mengikuti kuis seputar fakta COVID-19 dengan mengirim pesan \"MULAI\"";
             $textMessageBuilder3 = new TextMessageBuilder($message3);
+
+            $message4 = "untuk melakukan diagnosa dapat membuka link berikut https://diagnosacovid19.firebaseapp.com/#";
+            $textMessageBuilder4 = new TextMessageBuilder($message4);
     
             // create sticker message
             $stickerMessageBuilder = new StickerMessageBuilder(1, 407);
@@ -169,6 +172,7 @@ class Webhook extends Controller
             $multiMessageBuilder->add($textMessageBuilder);
             $multiMessageBuilder->add($textMessageBuilder2);
             $multiMessageBuilder->add($textMessageBuilder3);
+            $multiMessageBuilder->add($textMessageBuilder4);
             $multiMessageBuilder->add($stickerMessageBuilder);
     
             // send reply message
