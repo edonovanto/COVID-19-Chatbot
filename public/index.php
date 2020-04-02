@@ -25,8 +25,32 @@ $app = require __DIR__.'/../bootstrap/app.php';
 |
 */
 
-$num1 = 1690;
+$curl = curl_init();
 
-echo number_format($num1, 0,',','.');
+curl_setopt_array($curl, array(
+	CURLOPT_URL => "https://corona-updates.p.rapidapi.com/",
+	CURLOPT_RETURNTRANSFER => true,
+	CURLOPT_FOLLOWLOCATION => true,
+	CURLOPT_ENCODING => "",
+	CURLOPT_MAXREDIRS => 10,
+	CURLOPT_TIMEOUT => 30,
+	CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+	CURLOPT_CUSTOMREQUEST => "GET",
+	CURLOPT_HTTPHEADER => array(
+		"x-rapidapi-host: corona-updates.p.rapidapi.com",
+		"x-rapidapi-key: 73fd639711msh609dfa793bbcf25p13911fjsn566924c8a6e2"
+	),
+));
+
+$response = curl_exec($curl);
+$err = curl_error($curl);
+
+curl_close($curl);
+
+if ($err) {
+	echo "cURL Error #:" . $err;
+} else {
+	echo $response;
+}
 
 $app->run();
