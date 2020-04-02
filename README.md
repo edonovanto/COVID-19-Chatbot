@@ -16,4 +16,4 @@ A Chatbot implementation to inform latest and reliable information about COVID-1
 
 ### Self-Diagnose Service
 
-This chatbot use self-diagnose service from (https://github.com/ginanjarfm/covid19diagnose/)
+This chatbot use self-diagnose service from [here](https://github.com/ginanjarfm/covid19diagnose/) 
