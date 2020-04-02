@@ -25,4 +25,8 @@ $app = require __DIR__.'/../bootstrap/app.php';
 |
 */
 
+$num1 = 1690;
+
+echo number_format($num1, 0,',','.');
+
 $app->run();

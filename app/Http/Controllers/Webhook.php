@@ -204,14 +204,16 @@ class Webhook extends Controller
                 $result1 = $json->cases;
                 $result2 = $json->todayCases;
                 $result3 = $json->deaths;
+                $result34 = $json->todayDeaths;
                 $result4 = $json->recovered;
                 $result5 = $json->casesPerOneMillion;
     
                 // create welcome message
-                $message  = "Total Kasus : ". $result1 . "\n";
-                $message .= "Kasus Hari Ini : ". $result2 . "\n";
-                $message .= "Meninggal : ". $result3 . "\n";
-                $message .= "Sembuh : ". $result4 . "\n";
+                $message  = "Total Kasus : ". number_format($result1, 0,',','.') . "\n";
+                $message .= "Kasus Hari Ini : ". number_format($result2, 0,',','.') . "\n";
+                $message .= "Meninggal : ". number_format($result3, 0,',','.') . "\n";
+                $message .= "Meninggal Hari Ini : ". number_format($result34, 0,',','.') . "\n";
+                $message .= "Sembuh : ". number_format($result4, 0,',','.') . "\n";
                 $message .= "Kasus per 1 Juta Orang : ". $result5;
                 $textMessageBuilder = new TextMessageBuilder($message);
     
