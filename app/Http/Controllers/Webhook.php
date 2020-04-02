@@ -203,7 +203,7 @@ class Webhook extends Controller
                 $this->sendQuestion($event['replyToken'], 1);
             }
             if (strtolower($userMessage) == 'diagnosa'){
-                $message = 'Silahkan kunjungi link berikut untuk memulai diagnosa https://diagnosacovid19.firebaseapp.com/';
+                $message = 'Silahkan kunjungi link dibawah untuk memulai diagnosa';
                 $textMessageBuilder = new TextMessageBuilder($message);
 
                 $message2 = 'https://diagnosacovid19.firebaseapp.com/';
