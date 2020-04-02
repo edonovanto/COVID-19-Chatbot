@@ -13,3 +13,7 @@ A Chatbot implementation to inform latest and reliable information about COVID-1
 * [LINE Messaging](https://developer.smartable.ai/) - Implement Chatbot Service
 * [Smartable Developer](https://developer.smartable.ai/) - Get News about Corona
 * [COVID-19 API Github](https://www.postgresql.org/) - Inform Covid Cases
+
+### Self-Diagnose Service
+
+This chatbot use self-diagnose service from (https://github.com/ginanjarfm/covid19diagnose/)
