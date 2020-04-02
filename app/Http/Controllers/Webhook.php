@@ -11,6 +11,7 @@ use Illuminate\Log\Logger;
 use LINE\LINEBot;
 use LINE\LINEBot\HTTPClient\CurlHTTPClient;
 use LINE\LINEBot\MessageBuilder\MultiMessageBuilder;
+use \LINE\LINEBot\MessageBuilder\ImageMessageBuilder;
 use LINE\LINEBot\MessageBuilder\StickerMessageBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateMessageBuilder;
@@ -207,6 +208,7 @@ class Webhook extends Controller
                 $result34 = $json->todayDeaths;
                 $result4 = $json->recovered;
                 $result5 = $json->casesPerOneMillion;
+                $pic = $json->countryInfo->flag;
     
                 // create welcome message
                 $message  = "Total Kasus : ". number_format($result1, 0,',','.') . "\n";
@@ -216,9 +218,16 @@ class Webhook extends Controller
                 $message .= "Sembuh : ". number_format($result4, 0,',','.') . "\n";
                 $message .= "Kasus per 1 Juta Orang : ". $result5;
                 $textMessageBuilder = new TextMessageBuilder($message);
+                $imageMessageBuilder = new ImageMessageBuilder($pic, $pic);
+
+                $multiMessageBuilder = new MultiMessageBuilder();
+                $multiMessageBuilder->add($textMessageBuilder);
+                $multiMessageBuilder->add($imageMessageBuilder);
+
+                $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
     
-                $textMessageBuilder = new TextMessageBuilder($message);
-                $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
+                // $textMessageBuilder = new TextMessageBuilder($message);
+                // $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
             }
             else{
                 $message = 'Mohon maaf kami tidak mengerti pesan anda. Silakan kirim pesan "MULAI" untuk memulai kuis atau masukkan nama negara yang sesuai.';
