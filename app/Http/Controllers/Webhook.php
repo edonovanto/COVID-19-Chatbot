@@ -221,8 +221,8 @@ class Webhook extends Controller
                 $imageMessageBuilder = new ImageMessageBuilder($pic, $pic);
 
                 $multiMessageBuilder = new MultiMessageBuilder();
-                $multiMessageBuilder->add($textMessageBuilder);
                 $multiMessageBuilder->add($imageMessageBuilder);
+                $multiMessageBuilder->add($textMessageBuilder);
 
                 $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
     
