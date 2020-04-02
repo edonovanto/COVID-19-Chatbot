@@ -203,17 +203,10 @@ class Webhook extends Controller
                 $this->sendQuestion($event['replyToken'], 1);
             }
             if (strtolower($userMessage) == 'diagnosa'){
-                $message = 'Silahkan kunjungi link dibawah untuk memulai diagnosa';
+                $message = 'Silahkan kunjungi link berikut untuk memulai diagnosa https://diagnosacovid19.firebaseapp.com/';
                 $textMessageBuilder = new TextMessageBuilder($message);
 
-                $message2 = 'https://diagnosacovid19.firebaseapp.com/';
-                $textMessageBuilder2 = new TextMessageBuilder($message2);
-
-                $multiMessageBuilder = new MultiMessageBuilder();
-                $multiMessageBuilder->add($textMessageBuilder);
-                $multiMessageBuilder->add($textMessageBuilder2);
-
-                $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
+                $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
                 
             }
             if('https://corona.lmao.ninja/countries/'.strtolower($userMessage)){
