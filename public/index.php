@@ -28,7 +28,7 @@ $app = require __DIR__.'/../bootstrap/app.php';
 $curl = curl_init();
 
 curl_setopt_array($curl, array(
-	CURLOPT_URL => "https://corona-updates.p.rapidapi.com/",
+	CURLOPT_URL => "https://api.smartable.ai/coronavirus/news/US/",
 	CURLOPT_RETURNTRANSFER => true,
 	CURLOPT_FOLLOWLOCATION => true,
 	CURLOPT_ENCODING => "",
@@ -37,20 +37,30 @@ curl_setopt_array($curl, array(
 	CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 	CURLOPT_CUSTOMREQUEST => "GET",
 	CURLOPT_HTTPHEADER => array(
-		"x-rapidapi-host: corona-updates.p.rapidapi.com",
-		"x-rapidapi-key: 73fd639711msh609dfa793bbcf25p13911fjsn566924c8a6e2"
+		"Subscription-Key: 3009d4ccc29e4808af1ccc25c69b4d5d"
 	),
 ));
 
 $response = curl_exec($curl);
-$err = curl_error($curl);
 
 curl_close($curl);
 
-if ($err) {
-	echo "cURL Error #:" . $err;
-} else {
-	echo $response;
-}
+$result = json_decode($response, true);
+// var_dump($result);
 
-$app->run();
+$number = mt_rand(1,29);
+
+$all = $result['news'][$number];
+var_dump($all);
+
+// $title = $result['news'][0]['title'];
+// var_dump($title);
+
+// $image = $result['news'][0]["images"][0]['url'];
+// var_dump($desc);
+
+// $weburl = $result['news'][0]["webUrl"];
+// var_dump($weburl);
+
+
+// $app->run();
