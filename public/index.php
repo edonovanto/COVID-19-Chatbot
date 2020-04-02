@@ -25,42 +25,5 @@ $app = require __DIR__.'/../bootstrap/app.php';
 |
 */
 
-$curl = curl_init();
-
-curl_setopt_array($curl, array(
-	CURLOPT_URL => "https://api.smartable.ai/coronavirus/news/US/",
-	CURLOPT_RETURNTRANSFER => true,
-	CURLOPT_FOLLOWLOCATION => true,
-	CURLOPT_ENCODING => "",
-	CURLOPT_MAXREDIRS => 10,
-	CURLOPT_TIMEOUT => 30,
-	CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-	CURLOPT_CUSTOMREQUEST => "GET",
-	CURLOPT_HTTPHEADER => array(
-		"Subscription-Key: 3009d4ccc29e4808af1ccc25c69b4d5d"
-	),
-));
-
-$response = curl_exec($curl);
-
-curl_close($curl);
-
-$result = json_decode($response, true);
-// var_dump($result);
-
-$number = mt_rand(1,29);
-
-$all = $result['news'][$number];
-var_dump($all);
-
-// $title = $result['news'][0]['title'];
-// var_dump($title);
-
-// $image = $result['news'][0]["images"][0]['url'];
-// var_dump($desc);
-
-// $weburl = $result['news'][0]["webUrl"];
-// var_dump($weburl);
-
 
 // $app->run();
