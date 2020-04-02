@@ -158,10 +158,10 @@ class Webhook extends Controller
             $message2 = "Untuk melihat angka penyebaran COVID-19 pada berbagai negara silahkan ketikkan nama negara. Contoh : USA";
             $textMessageBuilder2 = new TextMessageBuilder($message2);
 
-            $message3 = "untuk mengikuti kuis seputar fakta COVID-19 dengan mengirim pesan \"MULAI\"";
+            $message3 = "untuk mengikuti kuis seputar fakta COVID-19 dengan mengirim pesan \"QUIZ\"";
             $textMessageBuilder3 = new TextMessageBuilder($message3);
 
-            $message4 = "untuk melakukan diagnosa dapat membuka link berikut https://diagnosacovid19.firebaseapp.com/#";
+            $message4 = "untuk melakukan diagnosa dapat membuka link berikut https://diagnosacovid19.firebaseapp.com";
             $textMessageBuilder4 = new TextMessageBuilder($message4);
     
             // create sticker message
@@ -193,7 +193,7 @@ class Webhook extends Controller
         if($this->user['number'] == 0)
         {
             $urlCovid = 'https://corona.lmao.ninja/countries/'.strtolower($userMessage);
-            if(strtolower($userMessage) == 'mulai')
+            if(strtolower($userMessage) == 'quiz')
             {
                 // reset score
                 $this->userGateway->setScore($this->user['user_id'], 0);
@@ -201,6 +201,11 @@ class Webhook extends Controller
                 $this->userGateway->setUserProgress($this->user['user_id'], 1);
                 // send question no.1
                 $this->sendQuestion($event['replyToken'], 1);
+            }
+            if (strtolower($userMessage) == 'diagnosa'){
+                $message = 'Silahkan kunjungi link berikut untuk memulai diagnosa https://diagnosacovid19.firebaseapp.com/';
+                $textMessageBuilder = new TextMessageBuilder($message);
+                $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
             }
             if('https://corona.lmao.ninja/countries/'.strtolower($userMessage)){
                 $url = "https://corona.lmao.ninja/countries/".strtolower($userMessage);
@@ -232,11 +237,6 @@ class Webhook extends Controller
     
                 // $textMessageBuilder = new TextMessageBuilder($message);
                 // $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
-            }
-            if (strtolower($userMessage) == 'diagnosa'){
-                $message = 'Silahkan kunjungi link berikut untuk memulai diagnosa https://diagnosacovid19.firebaseapp.com/';
-                $textMessageBuilder = new TextMessageBuilder($message);
-                $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
             }
             else{
                 $message = 'Mohon maaf kami tidak mengerti pesan anda. Silakan kirim pesan "MULAI" untuk memulai kuis atau masukkan nama negara yang sesuai.';
