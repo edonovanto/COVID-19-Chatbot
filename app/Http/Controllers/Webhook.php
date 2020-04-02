@@ -227,7 +227,7 @@ class Webhook extends Controller
 
                 $number = mt_rand(1,29);
 
-                $image = $result['news'][$number]['images'][$number]['url'];
+                $image = $result['news'][$number]['images'][0]['url'];
                 $imageMessageBuilder = new ImageMessageBuilder($image, $image);
                 $title = $result['news'][$number]['title'] . "\n";
                 $title .= $result['news'][$number]["webUrl"];
