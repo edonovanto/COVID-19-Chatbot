@@ -1,6 +1,9 @@
 # COVID-19-Chatbot
 A Chatbot implementation to inform latest and reliable information about COVID-19.
 
+## Chatbot Features
+[![INSERT YOUR GRAPHIC HERE](https://res.cloudinary.com/edonovanto/image/upload/v1585836656/LINE%20Chatbot%20Preview/Line_Chatbot_Covid2-02_icf10h.png)]()
+
 ## Built With
 
 * [Lumen](https://lumen.laravel.com/) - The web micro-framework used
