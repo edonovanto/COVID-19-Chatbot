@@ -156,10 +156,10 @@ class Webhook extends Controller
             $textMessageBuilder = new TextMessageBuilder($message);
 
             $message2 = "Beriku ini adalah informasi yang dapat kamu dapatkan :" . "\n";
-            $message2 .= "\n" . "Lihat angka penyebaran COVID-19 pada berbagai negara silahkan ketikkan nama negara. Contoh : USA" . "\n";
-            $message2 .= "\n" . "Ikuti kuis seputar fakta COVID-19 dengan mengirim pesan \"QUIZ\"" . "\n";
-            $message2 .= "\n" . "Lakukan diagnosa dengan mengirim pesan \"DIAGNOSA\"" . "\n";
-            $message2 .= "\n" . "Lihat berita COVID-19 mancanegara dengan mengirim pesan \"NEWS\"";
+            $message2 .= "\n" . "1. Lihat angka penyebaran COVID-19 pada berbagai negara silahkan ketikkan nama negara. Contoh : USA" . "\n";
+            $message2 .= "\n" . "2. Ikuti kuis seputar fakta COVID-19 dengan mengirim pesan \"QUIZ\"" . "\n";
+            $message2 .= "\n" . "3. Lakukan diagnosa dengan mengirim pesan \"DIAGNOSA\"" . "\n";
+            $message2 .= "\n" . "4. Lihat berita COVID-19 mancanegara dengan mengirim pesan \"NEWS\"";
             $textMessageBuilder2 = new TextMessageBuilder($message2);
     
             // create sticker message
