@@ -155,13 +155,13 @@ class Webhook extends Controller
             $message .= "Aku akan membantu kamu memberikan informasi tentang COVID-19 terkini";
             $textMessageBuilder = new TextMessageBuilder($message);
 
-            $message2 = "Untuk melihat angka penyebaran COVID-19 pada berbagai negara silahkan ketikkan nama negara. Contoh : USA";
+            $message2 = "Lihat angka penyebaran COVID-19 pada berbagai negara silahkan ketikkan nama negara. Contoh : USA";
             $textMessageBuilder2 = new TextMessageBuilder($message2);
 
-            $message3 = "untuk mengikuti kuis seputar fakta COVID-19 dengan mengirim pesan \"QUIZ\"";
+            $message3 = "Ikuti kuis seputar fakta COVID-19 dengan mengirim pesan \"QUIZ\"";
             $textMessageBuilder3 = new TextMessageBuilder($message3);
 
-            $message4 = "untuk melakukan diagnosa dapat membuka link berikut https://diagnosacovid19.firebaseapp.com";
+            $message4 = "Lakukan diagnosa dengan mengirim pesan \"DIAGNOSA\"";
             $textMessageBuilder4 = new TextMessageBuilder($message4);
     
             // create sticker message
@@ -205,7 +205,16 @@ class Webhook extends Controller
             if (strtolower($userMessage) == 'diagnosa'){
                 $message = 'Silahkan kunjungi link berikut untuk memulai diagnosa https://diagnosacovid19.firebaseapp.com/';
                 $textMessageBuilder = new TextMessageBuilder($message);
-                $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
+
+                $message2 = 'https://diagnosacovid19.firebaseapp.com/';
+                $textMessageBuilder2 = new TextMessageBuilder($message2);
+
+                $multiMessageBuilder = new MultiMessageBuilder();
+                $multiMessageBuilder->add($textMessageBuilder);
+                $multiMessageBuilder->add($textMessageBuilder2);
+
+                $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
+                
             }
             if('https://corona.lmao.ninja/countries/'.strtolower($userMessage)){
                 $url = "https://corona.lmao.ninja/countries/".strtolower($userMessage);
