@@ -155,14 +155,12 @@ class Webhook extends Controller
             $message .= "Aku akan membantu kamu memberikan informasi tentang COVID-19 terkini";
             $textMessageBuilder = new TextMessageBuilder($message);
 
-            $message2 = "Lihat angka penyebaran COVID-19 pada berbagai negara silahkan ketikkan nama negara. Contoh : USA";
+            $message2 = "Beriku ini adalah informasi yang dapat kamu dapatkan :" . "\n";
+            $message2 .= "\n" . "Lihat angka penyebaran COVID-19 pada berbagai negara silahkan ketikkan nama negara. Contoh : USA" . "\n";
+            $message2 .= "\n" . "Ikuti kuis seputar fakta COVID-19 dengan mengirim pesan \"QUIZ\"" . "\n";
+            $message2 .= "\n" . "Lakukan diagnosa dengan mengirim pesan \"DIAGNOSA\"" . "\n";
+            $message2 .= "\n" . "Lihat berita COVID-19 mancanegara dengan mengirim pesan \"NEWS\"";
             $textMessageBuilder2 = new TextMessageBuilder($message2);
-
-            $message3 = "Ikuti kuis seputar fakta COVID-19 dengan mengirim pesan \"QUIZ\"";
-            $textMessageBuilder3 = new TextMessageBuilder($message3);
-
-            $message4 = "Lakukan diagnosa dengan mengirim pesan \"DIAGNOSA\"";
-            $textMessageBuilder4 = new TextMessageBuilder($message4);
     
             // create sticker message
             $stickerMessageBuilder = new StickerMessageBuilder(1, 407);
@@ -171,8 +169,6 @@ class Webhook extends Controller
             $multiMessageBuilder = new MultiMessageBuilder();
             $multiMessageBuilder->add($textMessageBuilder);
             $multiMessageBuilder->add($textMessageBuilder2);
-            $multiMessageBuilder->add($textMessageBuilder3);
-            $multiMessageBuilder->add($textMessageBuilder4);
             $multiMessageBuilder->add($stickerMessageBuilder);
     
             // send reply message
