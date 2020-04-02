@@ -163,6 +163,9 @@ class Webhook extends Controller
 
             $message4 = "Lakukan diagnosa dengan mengirim pesan \"DIAGNOSA\"";
             $textMessageBuilder4 = new TextMessageBuilder($message4);
+
+            $message5 = "Lihat berita seputar COVID-19 dari berbagai mancanegara dengan megirim pesan \"NEWS\"";
+            $textMessageBuilder5 = new TextMessageBuilder($message5);
     
             // create sticker message
             $stickerMessageBuilder = new StickerMessageBuilder(1, 407);
@@ -173,6 +176,7 @@ class Webhook extends Controller
             $multiMessageBuilder->add($textMessageBuilder2);
             $multiMessageBuilder->add($textMessageBuilder3);
             $multiMessageBuilder->add($textMessageBuilder4);
+            $multiMessageBuilder->add($textMessageBuilder5);
             $multiMessageBuilder->add($stickerMessageBuilder);
     
             // send reply message
