@@ -1,2 +1,15 @@
 # COVID-19-Chatbot
-A Chatbot implementation to inform latest and reliable information about COVID-19. I'm using Lumen micro-framework, LINE Messaging API to implement the chatbot in Line Messanger, NovelCOVID API to get data with JSON format, Heroku App to deploy and PostgreSQL as database.
+A Chatbot implementation to inform latest and reliable information about COVID-19.
+
+## Built With
+
+* [Lumen](https://lumen.laravel.com/) - The web micro-framework used
+* [Postgree](https://www.postgresql.org/) - The Database
+* [Heroku](https://dashboard.heroku.com/) - Deploy the App
+* [Cloudinary](https://cloudinary.com/) - Cloud Service to manage file
+
+
+## Lists API 
+* [LINE Messaging](https://developer.smartable.ai/) - Implement Chatbot Service
+* [Smartable Developer](https://developer.smartable.ai/) - Get News about Corona
+* [COVID-19 API Github](https://www.postgresql.org/) - Inform Covid Cases
