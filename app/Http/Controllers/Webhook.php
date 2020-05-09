@@ -211,7 +211,7 @@ class Webhook extends Controller
                     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                     CURLOPT_CUSTOMREQUEST => "GET",
                     CURLOPT_HTTPHEADER => array(
-                        "Subscription-Key: 3009d4ccc29e4808af1ccc25c69b4d5d"
+                        "Subscription-Key: a4349d14f30045fda88a6706a6364739"
                     ),
                 ));
 
@@ -242,8 +242,8 @@ class Webhook extends Controller
                 $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
                 
             }
-            if('https://corona.lmao.ninja/countries/'.strtolower($userMessage)){
-                $url = "https://corona.lmao.ninja/countries/".strtolower($userMessage);
+            if('https://corona.lmao.ninja/v2/countries/'.strtolower($userMessage).'?yesterday&strict&query%20'){
+                $url = 'https://corona.lmao.ninja/v2/countries/'.strtolower($userMessage).'?yesterday&strict&query%20';
                 $json = file_get_contents($url);
                 $json = json_decode($json);
                 $result1 = $json->cases;
