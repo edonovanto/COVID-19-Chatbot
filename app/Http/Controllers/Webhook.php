@@ -269,6 +269,12 @@ class Webhook extends Controller
                 $multiMessageBuilder->add($textMessageBuilder);
 
                 $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
+
+                if($multiMessageBuilder == null){
+                    $message = 'Mohon maaf kami tidak mengerti pesan anda. Silakan kirim pesan "MULAI" untuk memulai kuis atau masukkan nama negara yang sesuai.';
+                    $textMessageBuilder = new TextMessageBuilder($message);
+                    $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
+                }
     
                 // $textMessageBuilder = new TextMessageBuilder($message);
                 // $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
