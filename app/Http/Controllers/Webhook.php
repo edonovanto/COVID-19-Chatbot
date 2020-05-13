@@ -250,7 +250,7 @@ class Webhook extends Controller
                 $result6 = $json->message;
                 $pic = $json->countryInfo->flag;
 
-                if ($result6 == "Country not found or doesn't have any cases") {
+                if ($result6 =! null) {
                     $message = 'Mohon maaf kami tidak mengerti pesan anda. Silakan kirim pesan "MULAI" untuk memulai kuis atau masukkan nama negara yang sesuai.';
                     $textMessageBuilder = new TextMessageBuilder($message);
                     $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
