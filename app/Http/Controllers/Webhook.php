@@ -250,29 +250,30 @@ class Webhook extends Controller
                 $result6 = $json->message;
                 $pic = $json->countryInfo->flag;
 
+
+                // create welcome message
+                $message  = "Total Kasus : " . number_format($result1, 0, ',', '.') . "\n";
+                $message .= "Kasus Hari Ini : " . number_format($result2, 0, ',', '.') . "\n";
+                $message .= "Meninggal : " . number_format($result3, 0, ',', '.') . "\n";
+                $message .= "Meninggal Hari Ini : " . number_format($result34, 0, ',', '.') . "\n";
+                $message .= "Sembuh : " . number_format($result4, 0, ',', '.') . "\n";
+                $message .= "Kasus dalam 1 Juta Orang : " . $result5;
+                $textMessageBuilder = new TextMessageBuilder($message);
+                $imageMessageBuilder = new ImageMessageBuilder($pic, $pic);
+
+                $multiMessageBuilder = new MultiMessageBuilder();
+                $multiMessageBuilder->add($imageMessageBuilder);
+                $multiMessageBuilder->add($textMessageBuilder);
+
+                $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
+
                 $message2 = $result6;
 
                 if ($message2 == "Country not found or doesn't have any cases") {
-                    $message = 'Mohon maaf kami tidak mengerti pesan anda. Silakan kirim pesan "MULAI" untuk memulai kuis atau masukkan nama negara yang sesuai.';
-                    $textMessageBuilder = new TextMessageBuilder($message);
-                    $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
+                    $message3 = 'Mohon maaf kami tidak mengerti pesan anda. Silakan kirim pesan "MULAI" untuk memulai kuis atau masukkan nama negara yang sesuai.';
+                    $textMessageBuilder2 = new TextMessageBuilder($message3);
+                    $this->bot->replyMessage($event['replyToken'], $textMessageBuilder2);
                 }
-
-                    // create welcome message
-                    $message  = "Total Kasus : " . number_format($result1, 0, ',', '.') . "\n";
-                    $message .= "Kasus Hari Ini : " . number_format($result2, 0, ',', '.') . "\n";
-                    $message .= "Meninggal : " . number_format($result3, 0, ',', '.') . "\n";
-                    $message .= "Meninggal Hari Ini : " . number_format($result34, 0, ',', '.') . "\n";
-                    $message .= "Sembuh : " . number_format($result4, 0, ',', '.') . "\n";
-                    $message .= "Kasus dalam 1 Juta Orang : " . $result5;
-                    $textMessageBuilder = new TextMessageBuilder($message);
-                    $imageMessageBuilder = new ImageMessageBuilder($pic, $pic);
-
-                    $multiMessageBuilder = new MultiMessageBuilder();
-                    $multiMessageBuilder->add($imageMessageBuilder);
-                    $multiMessageBuilder->add($textMessageBuilder);
-
-                    $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
 
                 // $textMessageBuilder = new TextMessageBuilder($message);
                 // $this->bot->replyMessage($event['replyToken'], $textMessageBuilder);
